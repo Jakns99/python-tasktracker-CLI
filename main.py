@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 
-print("Welcome to the CLI Task Tracker.")
+print("\033[1mWelcome to the CLI Task Tracker.\033[0m")
 # JSON Functionality
 #----------------------------------------------------------------------------------------------------------------------#
 TASK_FILE = "tasks.json"
@@ -15,7 +15,7 @@ def save_file(tasks):
             json.dump(tasks, file)
         print("Tasks saved successfully.")
     except Exception as e:
-        print(f"Error saving tasks file: {e}")
+        print_error(f"Error saving tasks file: {e}")
 
 def load_file():
     """Load tasks from a JSON file."""
@@ -24,7 +24,7 @@ def load_file():
             with open(TASK_FILE, "r") as file:
                 return json.load(file)
         except Exception as e:
-            print(f"Error loading tasks file: {e}")
+            print_error(f"Error loading tasks file: {e}")
             return [] # Return an empty list if an error occurs
     return [] # Return an empty list if the file does not exist
 
@@ -49,7 +49,7 @@ def add_task():
     elif status == 3:
         status = "done"
     else:
-        print("Please enter a valid number. (1. todo, 2. in-progress, 3. done)")
+        print_error("Please enter a valid number. (1. todo, 2. in-progress, 3. done)")
 
     # Append new task to JSON File
     tasks.append({
@@ -91,7 +91,7 @@ def update_task():
         save_file(tasks) # Save the updated task to file
         print("Task updated successfully.")
     else:
-        print("Invalid task number")
+        print_error("Invalid task number")
 
 
 def delete_task():
@@ -102,12 +102,24 @@ def delete_task():
         save_file(tasks) # Save new task list to file
         print("Task deleted successfully.")
     else:
-        print("Invalid task number.")
+        print_error("Invalid task number.")
 #----------------------------------------------------------------------------------------------------------------------#
+def print_error(message):
+    """Emboldens the error message"""
+    print(f"\033[1;31m{message}\033[0m")  # Bold red text
+
 def main():
     program = True
     while program:
-        user_input = input("Please select an option: (Add/Update/Delete/View/End) ").strip().lower()
+        print("\n\033[1mOptions:\033[0m")
+        print("#-----------------------------------------------------------------------------------------------------#")
+        print("\n\033[1mAdd:\033[0m Add a new task to the task list.")
+        print("\033[1mUpdate:\033[0m Update an existing task.")
+        print("\033[1mDelete:\033[0m Delete an existing task.")
+        print("\033[1mView:\033[0m View all tasks.")
+        print("\033[1mEnd:\033[0m End the program.\n")
+        print("#-----------------------------------------------------------------------------------------------------#")
+        user_input = input("\033[1mPlease select an option: (Add/Update/Delete/View/End)\033[0m ").strip().lower()
 
         if user_input == "add":
             add_task()
@@ -118,14 +130,16 @@ def main():
         elif user_input == "view":
             view_tasks()
         elif user_input == "end":
-            print("Thank you for using the CLI Task Tracker. Goodbye!")
+            print("\033[1mThank you for using the CLI Task Tracker. Goodbye!\033[0m")
             program = False
+        else:
+            print_error("\nInvalid input. Please try again.")
 
 
 if __name__ == "__main__":
     main()
 
-# TODO 1. Add, Update, and Delete Tasks Functions
+# TODO 1. Add, Update, and Delete Tasks Functions (DONE)
 # TODO 2. Mark a task as in progress or done Function
 # TODO 3. List all tasks Function
 # TODO 4. List all tasks that are not done Function
