@@ -104,6 +104,30 @@ def delete_task():
     else:
         print_error("Invalid task number.")
 #----------------------------------------------------------------------------------------------------------------------#
+# Mark a task as in progress or done Function
+#----------------------------------------------------------------------------------------------------------------------#
+
+def mark_task():
+    view_tasks()
+    task_index = int(input("Enter the number of the task you want to mark as in progress or done: ")) - 1
+    if 0 <= task_index < len(tasks):
+        user_choice = input("Please enter 'in progress' or 'done' to mark the task: ").lower()
+        if user_choice == "in progress":
+            tasks[task_index]["status"] = user_choice
+            tasks[task_index]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Current date and time
+            save_file(tasks) # Save the updated task to file
+        elif user_choice == "done":
+            tasks[task_index]["status"] = user_choice
+            tasks[task_index]["updatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S") # Current date and time
+            save_file(tasks) # Save the updated task to file
+        else:
+            print_error("Please enter a valid status. (in progress or done)")
+    else:
+        print_error("Invalid task number.")
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+
 def print_error(message):
     """Emboldens the error message"""
     print(f"\033[1;31m{message}\033[0m")  # Bold red text
@@ -115,16 +139,19 @@ def main():
         print("#-----------------------------------------------------------------------------------------------------#")
         print("\n\033[1mAdd:\033[0m Add a new task to the task list.")
         print("\033[1mUpdate:\033[0m Update an existing task.")
+        print("\033[1mMark:\033[0m Mark a task as in progress or done.")
         print("\033[1mDelete:\033[0m Delete an existing task.")
         print("\033[1mView:\033[0m View all tasks.")
         print("\033[1mEnd:\033[0m End the program.\n")
         print("#-----------------------------------------------------------------------------------------------------#")
-        user_input = input("\033[1mPlease select an option: (Add/Update/Delete/View/End)\033[0m ").strip().lower()
+        user_input = input("\033[1mPlease select an option: (Add/Update/Mark/Delete/View/End)\033[0m ").strip().lower()
 
         if user_input == "add":
             add_task()
         elif user_input == "update":
             update_task()
+        elif user_input == "mark":
+            mark_task()
         elif user_input == "delete":
             delete_task()
         elif user_input == "view":
@@ -141,6 +168,6 @@ if __name__ == "__main__":
 
 # TODO 1. Add, Update, and Delete Tasks Functions (DONE)
 # TODO 2. Mark a task as in progress or done Function
-# TODO 3. List all tasks Function
+# TODO 3. List all tasks Function (DONE)
 # TODO 4. List all tasks that are not done Function
 # TODO 5. List all tasks that are in progress Function
