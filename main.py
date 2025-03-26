@@ -128,6 +128,22 @@ def mark_task():
 
 #----------------------------------------------------------------------------------------------------------------------#
 
+# List tasks by status function
+#----------------------------------------------------------------------------------------------------------------------#
+def list_tasks_by_status():
+  """Take user input to list tasks by status"""
+  status = input("Enter the status you want to filter by (todo, in progress, done): ").strip().lower()
+  filtered_tasks = [task for task in tasks if task["status"] == status]
+  if filtered_tasks:
+      print(f"\nTasks with status '{status}':")
+      for task in filtered_tasks:
+          print(json.dumps(task, indent=4))
+  else:
+      print_error(f"No tasks found with status '{status}'.")
+
+#----------------------------------------------------------------------------------------------------------------------#
+
+
 def print_error(message):
     """Emboldens the error message"""
     print(f"\033[1;31m{message}\033[0m")  # Bold red text
@@ -142,9 +158,10 @@ def main():
         print("\033[1mMark:\033[0m Mark a task as in progress or done.")
         print("\033[1mDelete:\033[0m Delete an existing task.")
         print("\033[1mView:\033[0m View all tasks.")
+        print("\033[1mList:\033[0m List tasks by status. (1. todo, 2. in-progress, 3. done)")
         print("\033[1mEnd:\033[0m End the program.\n")
         print("#-----------------------------------------------------------------------------------------------------#")
-        user_input = input("\033[1mPlease select an option: (Add/Update/Mark/Delete/View/End)\033[0m ").strip().lower()
+        user_input = input("\033[1mPlease select an option: (Add/Update/Mark/Delete/View/List/End)\033[0m ").strip().lower()
 
         if user_input == "add":
             add_task()
@@ -156,6 +173,8 @@ def main():
             delete_task()
         elif user_input == "view":
             view_tasks()
+        elif user_input == "list":
+            list_tasks_by_status()
         elif user_input == "end":
             print("\033[1mThank you for using the CLI Task Tracker. Goodbye!\033[0m")
             program = False
@@ -167,7 +186,7 @@ if __name__ == "__main__":
     main()
 
 # TODO 1. Add, Update, and Delete Tasks Functions (DONE)
-# TODO 2. Mark a task as in progress or done Function
+# TODO 2. Mark a task as in progress or done Function (DONE)
 # TODO 3. List all tasks Function (DONE)
-# TODO 4. List all tasks that are not done Function
-# TODO 5. List all tasks that are in progress Function
+# TODO 4. List all tasks that are not done Function (DONE)
+# TODO 5. List all tasks that are in progress Function (DONE)
